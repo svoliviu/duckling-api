@@ -1,0 +1,24 @@
+export abstract class ApiError {
+  constructor(
+    readonly code: number,
+    readonly message: string,
+    readonly details: string
+  ) {}
+
+  toObject(): ErrorPayload {
+    return {
+      code: this.code,
+      message: this.message,
+      details: this.details,
+    };
+  }
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+}
+
+export type ErrorPayload = {
+  code: number;
+  message: string;
+  details: string;
+};

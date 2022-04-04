@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Website {
+
+  id        String   @id @db.Uuid
+  domain    String   @db.VarChar(100)
+  name      String   @db.VarChar(100)
+  visits    Visit[]
+  pages     Page[]
+  createdAt DateTime
+
+
+  @@map("websites")
+}
+
+model Visit {
+
+  id        String   @id @db.Uuid
+  website   Website  @relation(fields: [websiteId], references: [id])
+  websiteId String   @db.Uuid
+  page      Page?
+  createdAt DateTime
+
+  @@map("visits")
+}
+
+model Page {
+  id        String   @id @db.Uuid
+  url       String   @db.VarChar(100)
+  website   Website  @relation(fields: [websiteId], references: [id])
+  websiteId String   @db.Uuid
+  visit     Visit    @relation(fields: [visitId], references: [id])
+  visitId   String   @db.Uuid@unique
+  createdAt DateTime
+
+  @@map("pages")
+}
+
+model User {
+  id String @id @db.Uuid
+  email String @unique @db.VarChar(100)
+  password String @db.VarChar
+
+  firstName String
+  lastName String
+
+  refreshTokens RefreshToken[]
+
+  createdAt DateTime
+  updatedAt DateTime?
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id String @id @db.Uuid
+  token String @unique @db.Uuid
+
+  user User @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  createdAt DateTime
+  expiresAt DateTime
+
+  @@map("refresh_tokens")
+}
