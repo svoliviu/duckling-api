@@ -1,4 +1,5 @@
-import { WebsitesRepository } from "./websites.repository";
-import { WebsitesRepositoryInterface } from "./websites-repository.interface";
+export { WebsitesRepositoryInterface } from "./websites-repository.interface";
+export { WebsitesRepository } from "./websites.repository";
 
-export { WebsitesRepositoryInterface, WebsitesRepository };
+export { UsersRepositoryInterface } from "./users-repository.interface";
+export { UsersRepository } from "./users.repository";

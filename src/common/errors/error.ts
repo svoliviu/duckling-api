@@ -1,6 +1,6 @@
 export abstract class ApiError {
   constructor(
-    readonly code: number,
+    readonly code: string | number,
     readonly message: string,
     readonly details: string
   ) {}
@@ -18,7 +18,7 @@ export abstract class ApiError {
 }
 
 export type ErrorPayload = {
-  code: number;
+  code: string | number;
   message: string;
   details: string;
 };

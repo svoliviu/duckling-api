@@ -11,3 +11,6 @@ export { FindManyError } from "./find-many.error";
 // delete
 export { DeleteError } from "./delete.error";
 export { DeleteManyError } from "./delete-many.error";
+
+// users
+export * from "./users";

@@ -22,9 +22,7 @@ export class WebsitesRepository implements WebsitesRepositoryInterface {
     try {
       return ok<Website>(await this.prismaClient.website.create({ data }));
     } catch (error) {
-      return notOk<InsertError>(
-        new InsertError("Failed to insert Website", (error as Error).message)
-      );
+      return notOk<InsertError>(new InsertError((error as Error).message));
     }
   }
 

@@ -3,8 +3,6 @@ import { v4 } from "uuid";
 import { Website } from ".prisma/client";
 import { Inject, Service } from "typedi";
 
-import { CreateWebsiteDto, WebsiteDto } from "../common";
-
 import {
   WebsitesRepository,
   WebsitesRepositoryInterface,
@@ -13,6 +11,8 @@ import {
 import { WebsitesServiceInterface } from ".";
 import { Either, isNotOk, ok } from "../common/utils";
 import { FindError, FindManyError, InsertError } from "../common/errors";
+import { CreateWebsiteDto } from "../common/types/create-website-dto.type";
+import { WebsiteDto } from "../common/types/website-dto.type";
 
 @Service(WebsitesService.name)
 export class WebsitesService implements WebsitesServiceInterface {
