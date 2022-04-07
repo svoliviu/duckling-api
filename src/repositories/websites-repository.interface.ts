@@ -1,5 +1,4 @@
 import { Prisma, Website } from ".prisma/client";
-import { PrismaClient } from "../../prisma";
 import { Delete, Find, Create } from "../common/interfaces";
 
 export interface WebsitesRepositoryInterface

@@ -21,4 +21,4 @@ websitesRouter.get("/:id", async (req, res) => {
   return res.send(await websitesController.show(req));
 });
 
-export default websitesRouter;
+export { websitesRouter };
