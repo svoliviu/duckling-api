@@ -22,7 +22,6 @@ export class UsersController {
       });
 
     if (isNotOk(createUser)) {
-      console.log(createUser.notOk.toString());
       throw new InternalServerError(createUser.notOk.toString());
     }
 

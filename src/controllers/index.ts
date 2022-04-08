@@ -1,3 +1,2 @@
-import { WebsitesController } from "./websites.controller";
-
-export { WebsitesController };
+export { WebsitesController } from "./websites.controller";
+export { UsersController } from "./users.controller";
