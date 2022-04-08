@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/svoliviu/duckling-API/compare/v0.1.0...v0.1.1) (2022-04-08)
+
+
+### Features
+
+* **error-handling:** add express middleware for handling controller thrown exceptions ([34d4ae5](https://github.com/svoliviu/duckling-API/commit/34d4ae5f2143a5fe91a15b69988f1caea61ea10c))
+
 ## [0.1.0](https://github.com/svoliviu/duckling-API/compare/v0.0.2...v0.1.0) (2022-04-07)
 
 
