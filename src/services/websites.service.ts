@@ -10,7 +10,7 @@ import {
 
 import { WebsitesServiceInterface } from ".";
 import { Either, isNotOk, ok } from "../common/utils";
-import { FindError, FindManyError, InsertError } from "../common/errors";
+import { ApiError, FindError, InsertError } from "../common/errors";
 import { CreateWebsiteDto } from "../common/types/create-website-dto.type";
 import { WebsiteDto } from "../common/types/website-dto.type";
 
@@ -20,6 +20,12 @@ export class WebsitesService implements WebsitesServiceInterface {
     @Inject(WebsitesRepository.name)
     private readonly websitesRepository: WebsitesRepositoryInterface
   ) {}
+
+  findMany(
+    criteria: string | string[]
+  ): Promise<Either<ApiError, WebsiteDto[]>> {
+    throw new Error("Method not implemented.");
+  }
 
   async findOne(id: string): Promise<Either<FindError, WebsiteDto | null>> {
     const findWebsiteEither: Either<FindError, Website | null> =
@@ -34,23 +40,6 @@ export class WebsitesService implements WebsitesServiceInterface {
     }
 
     return ok<WebsiteDto>(this.buildWebsiteDto(findWebsiteEither.ok));
-  }
-
-  async findMany(ids: string[]): Promise<Either<FindManyError, WebsiteDto[]>> {
-    const findWebsiteEither: Either<FindManyError, Website[]> =
-      await this.websitesRepository.findMany({
-        id: { in: ids },
-      });
-
-    if (isNotOk(findWebsiteEither)) {
-      return findWebsiteEither;
-    }
-
-    return ok<WebsiteDto[]>(
-      findWebsiteEither.ok.map((website: Website) => {
-        return this.buildWebsiteDto(website);
-      })
-    );
   }
 
   async create(

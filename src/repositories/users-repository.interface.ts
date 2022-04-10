@@ -1,5 +1,6 @@
 import { Prisma, User } from ".prisma/client";
-import { Create } from "../common/interfaces";
+import { Create, Find } from "../common/interfaces";
 
 export interface UsersRepositoryInterface
-  extends Create<Prisma.UserCreateInput, User> {}
+  extends Create<Prisma.UserCreateInput, User>,
+    Find<Prisma.UserWhereUniqueInput, User> {}

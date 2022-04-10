@@ -5,10 +5,9 @@ import { PrismaClient } from "../../prisma";
 import { WebsitesRepositoryInterface } from "./websites-repository.interface";
 import { Either, notOk, ok } from "../common/utils";
 import {
+  ApiError,
   DeleteError,
-  DeleteManyError,
   FindError,
-  FindManyError,
   InsertError,
 } from "../common/errors";
 
@@ -34,22 +33,14 @@ export class WebsitesRepository implements WebsitesRepositoryInterface {
         await this.prismaClient.website.findFirst({ where })
       );
     } catch (error) {
-      return notOk<FindError>(
-        new FindError("Failed to find Website", (error as Error).message)
-      );
+      return notOk<FindError>(new FindError((error as Error).message));
     }
   }
 
-  async findMany(
-    where: Prisma.WebsiteWhereInput
-  ): Promise<Either<FindManyError, Website[]>> {
-    try {
-      return ok<Website[]>(await this.prismaClient.website.findMany({ where }));
-    } catch (error) {
-      return notOk<FindManyError>(
-        new FindManyError("Failed to find Websites", (error as Error).message)
-      );
-    }
+  findMany(
+    criteria: Prisma.WebsiteWhereInput
+  ): Promise<Either<ApiError, Website[]>> {
+    throw new Error("Method not implemented.");
   }
 
   async delete(
@@ -66,7 +57,7 @@ export class WebsitesRepository implements WebsitesRepositoryInterface {
 
   deleteMany(
     where: Prisma.WebsiteWhereUniqueInput
-  ): Promise<Either<DeleteManyError, Website[]>> {
+  ): Promise<Either<ApiError, Website[]>> {
     throw new Error("Method not implemented.");
   }
 }
