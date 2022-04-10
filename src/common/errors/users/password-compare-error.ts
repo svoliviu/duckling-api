@@ -1,8 +1,8 @@
 import { ApiError } from "..";
 import { ErrorPayload } from "../error";
 
-export class InternalServerError extends ApiError {
+export class PasswordCompareError extends ApiError {
   constructor(readonly details: string | ErrorPayload) {
-    super(500, "Internal Server Error", details);
+    super("EUSER-11", "Failed to validate password", details);
   }
 }

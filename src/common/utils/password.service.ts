@@ -2,7 +2,7 @@ import { hash, compare } from "bcrypt";
 import { Service } from "typedi";
 import { notOk } from ".";
 
-import { ApiError, PasswordHashError } from "../errors";
+import { ApiError, PasswordCompareError, PasswordHashError } from "../errors";
 import { Either, ok } from "./either";
 import { PasswordServiceInterface } from "./password-service.interface";
 
@@ -19,10 +19,17 @@ export class PasswordService implements PasswordServiceInterface {
       );
     }
   }
+
   async compare(
     password: string,
     hash: string
   ): Promise<Either<ApiError, boolean>> {
-    throw new Error("Method not implemented.");
+    try {
+      return ok<boolean>(await compare(password, hash));
+    } catch (error) {
+      return notOk<PasswordCompareError>(
+        new PasswordCompareError((error as Error).message)
+      );
+    }
   }
 }

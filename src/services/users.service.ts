@@ -1,7 +1,7 @@
 import { Prisma, User } from ".prisma/client";
 import { Inject, Service } from "typedi";
 import { v4 } from "uuid";
-import { ApiError, InsertError } from "../common/errors";
+import { ApiError, FindError, InsertError } from "../common/errors";
 import { UserDto } from "../common/types";
 import { Either, isNotOk, ok, PasswordService } from "../common/utils";
 import { PasswordServiceInterface } from "../common/utils/password-service.interface";
@@ -16,6 +16,25 @@ export class UsersService implements UsersServiceInterface {
     @Inject(PasswordService.name)
     private readonly passwordService: PasswordServiceInterface
   ) {}
+
+  async findOne(id: string): Promise<Either<ApiError, UserDto | null>> {
+    const findUser: Either<ApiError, User | null> =
+      await this.usersRepository.findOne({ id });
+
+    if (isNotOk(findUser)) {
+      return findUser;
+    }
+
+    if (findUser.ok === null) {
+      return ok<null>(findUser.ok);
+    }
+
+    return ok<UserDto>(this.buildUserDto(findUser.ok));
+  }
+
+  findMany(where: string | string[]): Promise<Either<ApiError, UserDto[]>> {
+    throw new Error("Method not implemented.");
+  }
 
   async create(
     createUserDto: Prisma.UserCreateInput
