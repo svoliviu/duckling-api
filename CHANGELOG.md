@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/svoliviu/duckling-API/compare/v0.1.1...v0.1.2) (2022-04-10)
+
+
+### Features
+
+* **auth:** add POST /login & POST /refresh endpoints ([50dfb4f](https://github.com/svoliviu/duckling-API/commit/50dfb4fb6604733203e5074315de3ef5182f3736))
+
 ### [0.1.1](https://github.com/svoliviu/duckling-API/compare/v0.1.0...v0.1.1) (2022-04-08)
 
 
