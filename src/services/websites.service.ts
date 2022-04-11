@@ -51,6 +51,7 @@ export class WebsitesService implements WebsitesServiceInterface {
         domain: createWebsiteDto.domain,
         name: createWebsiteDto.name,
         createdAt: new Date(),
+        user: { connect: { id: createWebsiteDto.userId } },
       });
 
     if (isNotOk(insertWebsiteEither)) {

@@ -19,6 +19,8 @@ model Website {
   pages     Page[]
   createdAt DateTime
 
+  user User @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
 
   @@map("websites")
 }
@@ -52,6 +54,7 @@ model User {
   password String
 
   refreshTokens RefreshToken[]
+  websites Website[]
 
   createdAt DateTime
   updatedAt DateTime?

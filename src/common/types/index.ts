@@ -8,3 +8,4 @@ export { CreateUserDto } from "./create-user-dto.type";
 export { UserDto } from "./user-dto.type";
 
 export { RefreshUserDto } from "./refresh-user-dto.type";
+export { SignJwtDto } from "./sign-jwt-dto.type";

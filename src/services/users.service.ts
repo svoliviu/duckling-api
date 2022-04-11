@@ -18,7 +18,7 @@ export class UsersService implements UsersServiceInterface {
   ) {}
 
   async findOne(id: string): Promise<Either<ApiError, UserDto | null>> {
-    const findUser: Either<ApiError, User | null> =
+    const findUser: Either<FindError, User | null> =
       await this.usersRepository.findOne({ id });
 
     if (isNotOk(findUser)) {
