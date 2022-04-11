@@ -1,17 +1,17 @@
 import Container from "typedi";
 import express, { NextFunction } from "express";
 
-import { errorHandling } from "../middleware";
-import { AuthController, UsersController } from "../../controllers";
-import { loginUserSchema, payloadValidationMiddleware } from "../validation";
+import { loginUserSchema } from "../validation";
+import { AuthController } from "../../controllers";
+import { handleHttpErrors, validateRequestBody } from "../middleware";
 
 const authRouter = express.Router();
 
 const authController = Container.get(AuthController);
 
 authRouter.post(
-  "/login",
-  payloadValidationMiddleware(loginUserSchema),
+  "/auth/login",
+  validateRequestBody(loginUserSchema),
   async (req: express.Request, res: express.Response, next: NextFunction) => {
     try {
       return res.send(await authController.login(req));
@@ -19,11 +19,11 @@ authRouter.post(
       next(error);
     }
   },
-  errorHandling
+  handleHttpErrors
 );
 
 authRouter.post(
-  "/refresh",
+  "/auth/refresh",
   // payloadValidationMiddleware(loginUserSchema),
   async (req: express.Request, res: express.Response, next: NextFunction) => {
     try {
@@ -32,7 +32,7 @@ authRouter.post(
       next(error);
     }
   },
-  errorHandling
+  handleHttpErrors
 );
 
 export { authRouter };

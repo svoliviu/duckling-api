@@ -13,9 +13,7 @@ export class UsersRepository implements UsersRepositoryInterface {
     where: Prisma.UserWhereUniqueInput
   ): Promise<Either<ApiError, User | null>> {
     try {
-      return ok<User | null>(
-        await this.prismaClient.user.findUnique({ where })
-      );
+      return ok<User | null>(await this.prismaClient.user.findFirst({ where }));
     } catch (error) {
       return notOk<FindError>(new FindError((error as Error).message));
     }

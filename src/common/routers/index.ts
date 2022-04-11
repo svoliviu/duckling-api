@@ -1,3 +1,3 @@
-export { websitesRouter } from "./websites.router";
+export { websitesRouter } from "./user-websites.router";
 export { usersRouter } from "./users.router";
 export { authRouter } from "./auth.router";

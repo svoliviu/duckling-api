@@ -68,7 +68,10 @@ export class AuthService implements AuthServiceInterface {
     }
 
     // obtain the user access token
-    const createAccessToken = await this.jwtService.sign();
+    const createAccessToken = await this.jwtService.sign({
+      userId: user.ok.id,
+      expiresAt: dayjs().add(10, "minutes").format(),
+    });
 
     if (isNotOk(createAccessToken)) {
       return notOk<InternalError>(
@@ -127,7 +130,10 @@ export class AuthService implements AuthServiceInterface {
     }
 
     // obtain the new user access token
-    const createAccessToken = await this.jwtService.sign();
+    const createAccessToken = await this.jwtService.sign({
+      userId: findRefreshToken.ok.userId,
+      expiresAt: dayjs().add(10, "minutes").format(),
+    });
 
     if (isNotOk(createAccessToken)) {
       return notOk<InternalError>(

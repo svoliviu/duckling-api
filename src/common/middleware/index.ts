@@ -1,1 +1,2 @@
-export { errorHandling } from "./error-handling.middleware";
+export { handleHttpErrors } from "./handle-http-errors.middleware";
+export { validateRequestBody } from "./validate-request-body.middleware";

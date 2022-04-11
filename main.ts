@@ -5,8 +5,10 @@ import { authRouter, usersRouter, websitesRouter } from "./src/common";
 
 const app = new App();
 
-app.registerRouter("/v1/websites", websitesRouter);
-app.registerRouter("/v1/users", usersRouter);
-app.registerRouter("/v1/auth", authRouter);
+const apiVersion = "/v1";
+
+app.registerRouter(apiVersion, authRouter);
+app.registerRouter(apiVersion, usersRouter);
+app.registerRouter(apiVersion, websitesRouter);
 
 app.listen(3001);
