@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/svoliviu/duckling-API/compare/v0.3.0...v0.4.0) (2022-04-11)
+
+
+### Features
+
+* **auth:** add authentication middleware ([1b7cd65](https://github.com/svoliviu/duckling-API/commit/1b7cd65ead3957cfaf350dfae5f5def3bf80334e))
+
 ## [0.3.0](https://github.com/svoliviu/duckling-API/compare/v0.1.1...v0.3.0) (2022-04-10)
 
 ### Features
