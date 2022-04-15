@@ -16,7 +16,6 @@ model Website {
   domain    String   @db.VarChar(100)
   name      String   @db.VarChar(100)
   visits    Visit[]
-  pages     Page[]
   createdAt DateTime
 
   user User @relation(fields: [userId], references: [id])
@@ -30,22 +29,15 @@ model Visit {
   id        String   @id @db.Uuid
   website   Website  @relation(fields: [websiteId], references: [id])
   websiteId String   @db.Uuid
-  page      Page?
+  path   String
+ 
+  device String
+  os String
+  browser String
+
   createdAt DateTime
 
   @@map("visits")
-}
-
-model Page {
-  id        String   @id @db.Uuid
-  url       String   @db.VarChar(100)
-  website   Website  @relation(fields: [websiteId], references: [id])
-  websiteId String   @db.Uuid
-  visit     Visit    @relation(fields: [visitId], references: [id])
-  visitId   String   @db.Uuid@unique
-  createdAt DateTime
-
-  @@map("pages")
 }
 
 model User {

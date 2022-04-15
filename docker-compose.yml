@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  timescale:
+    image: timescale/timescaledb:latest-pg14
+    container_name: duckling-timescaledb
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080

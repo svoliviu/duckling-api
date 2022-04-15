@@ -1,7 +1,7 @@
 import { ApiError, ErrorPayload } from "../error";
 
-export class FindError extends ApiError {
+export class UrlProcessingError extends ApiError {
   constructor(readonly details: string | ErrorPayload) {
-    super(103, "Find Error", details);
+    super("EURL-01", "Failed to process URL", details);
   }
 }

@@ -1,7 +1,7 @@
 import { ApiError, ErrorPayload } from "../error";
 
-export class FindError extends ApiError {
+export class UserAgentParseError extends ApiError {
   constructor(readonly details: string | ErrorPayload) {
-    super(103, "Find Error", details);
+    super("EUA-01", "Failed to parse user agent", details);
   }
 }

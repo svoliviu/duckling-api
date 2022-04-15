@@ -6,3 +6,6 @@ export { UsersServiceInterface } from "./users-service.interface";
 
 export { AuthService } from "./auth.service";
 export { AuthServiceInterface } from "./auth-service.interface";
+
+export { VisitsService } from "./visits.service";
+export { VisitsServiceInterface } from "./visits-service.interface";

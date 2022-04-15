@@ -9,3 +9,7 @@ export { UserDto } from "./user-dto.type";
 
 export { RefreshUserDto } from "./refresh-user-dto.type";
 export { SignJwtDto } from "./sign-jwt-dto.type";
+
+export { CreateVisitDto } from "./create-visit-dto.type";
+
+export { UserAgent } from "./user-agent-dto.type";
