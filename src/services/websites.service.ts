@@ -9,16 +9,26 @@ import {
 } from "../repositories";
 
 import { WebsitesServiceInterface } from ".";
-import { Either, isNotOk, ok } from "../common/utils";
-import { ApiError, FindError, InsertError } from "../common/errors";
+import { Either, isNotOk, notOk, ok } from "../common/utils";
+import {
+  ApiError,
+  FindError,
+  InsertError,
+  InternalError,
+  UrlProcessingError,
+} from "../common/errors";
 import { CreateWebsiteDto } from "../common/types/create-website-dto.type";
 import { WebsiteDto } from "../common/types/website-dto.type";
+import { UrlProcessor } from "../common/utils/url-processor";
+import { UrlProcessorInterface } from "../common/utils/url-processor.interface";
 
 @Service(WebsitesService.name)
 export class WebsitesService implements WebsitesServiceInterface {
   constructor(
     @Inject(WebsitesRepository.name)
-    private readonly websitesRepository: WebsitesRepositoryInterface
+    private readonly websitesRepository: WebsitesRepositoryInterface,
+    @Inject(UrlProcessor.name)
+    private readonly urlProcessor: UrlProcessorInterface
   ) {}
 
   findMany(
@@ -45,10 +55,19 @@ export class WebsitesService implements WebsitesServiceInterface {
   async create(
     createWebsiteDto: CreateWebsiteDto
   ): Promise<Either<InsertError, WebsiteDto>> {
+    const processWebsiteDomain: Either<UrlProcessingError, string> =
+      this.urlProcessor.extractDomain(createWebsiteDto.domain);
+
+    if (isNotOk(processWebsiteDomain)) {
+      return notOk<InternalError>(
+        new InternalError(processWebsiteDomain.notOk.toObject())
+      );
+    }
+
     const insertWebsiteEither: Either<InsertError, Website> =
       await this.websitesRepository.create({
         id: v4(),
-        domain: createWebsiteDto.domain,
+        domain: processWebsiteDomain.ok,
         name: createWebsiteDto.name,
         createdAt: new Date(),
         user: { connect: { id: createWebsiteDto.userId } },

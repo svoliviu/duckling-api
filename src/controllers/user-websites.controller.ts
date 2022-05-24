@@ -1,7 +1,6 @@
 import express from "express";
 
 import { Inject, Service } from "typedi";
-import { UsersController } from ".";
 import { UserDto } from "../common";
 import { FindUserError, InsertError, InternalError } from "../common/errors";
 import { InternalServerError, NotFoundError } from "../common/errors/http";

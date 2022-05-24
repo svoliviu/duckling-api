@@ -2,7 +2,7 @@ import { Prisma, User } from ".prisma/client";
 import { Inject, Service } from "typedi";
 import { v4 } from "uuid";
 import { ApiError, FindError, InsertError } from "../common/errors";
-import { UserDto } from "../common/types";
+import { CreateUserDto, UserDto } from "../common/types";
 import { Either, isNotOk, ok, PasswordService } from "../common/utils";
 import { PasswordServiceInterface } from "../common/utils/password-service.interface";
 import { UsersRepository, UsersRepositoryInterface } from "../repositories";
@@ -37,7 +37,7 @@ export class UsersService implements UsersServiceInterface {
   }
 
   async create(
-    createUserDto: Prisma.UserCreateInput
+    createUserDto: CreateUserDto
   ): Promise<Either<ApiError, UserDto>> {
     const hashedPassword = await this.passwordService.hash(
       createUserDto.password

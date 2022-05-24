@@ -1,5 +1,5 @@
 export type UserAgent = {
-  os?: string;
-  device?: string;
-  browser?: string;
+  os: string;
+  device: string;
+  browser: string;
 };

@@ -1,7 +1,7 @@
 import DeviceDetector, { DeviceDetectorResult } from "device-detector-js";
 import { Service } from "typedi";
 import { Either, notOk, ok } from ".";
-import { ApiError, UserAgentParseError } from "../errors";
+import { UserAgentParseError } from "../errors";
 import { UserAgent } from "../types";
 import { UserAgentParser } from "./user-agent-parser.interface";
 
@@ -28,9 +28,9 @@ export class DDUserAgentParser implements UserAgentParser {
     parsedUserAgent: DeviceDetectorResult
   ): UserAgent {
     return {
-      os: parsedUserAgent.os?.name,
-      device: parsedUserAgent.device?.brand,
-      browser: parsedUserAgent.client?.name,
+      os: parsedUserAgent.os?.name || "unknown",
+      device: parsedUserAgent.device?.brand || "unknown",
+      browser: parsedUserAgent.client?.name || "unknown",
     };
   }
 }

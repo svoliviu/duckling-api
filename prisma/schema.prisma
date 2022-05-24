@@ -11,42 +11,25 @@ datasource db {
 }
 
 model Website {
-
-  id        String   @id @db.Uuid
-  domain    String   @db.VarChar(100)
-  name      String   @db.VarChar(100)
-  visits    Visit[]
+  id        String    @id @db.Uuid
+  domain    String    @db.VarChar(100)
+  name      String    @db.VarChar(100)
   createdAt DateTime
-
-  user User @relation(fields: [userId], references: [id])
+  
+  user   User   @relation(fields: [userId], references: [id])
   userId String @db.Uuid
 
   @@map("websites")
 }
 
-model Visit {
-
-  id        String   @id @db.Uuid
-  website   Website  @relation(fields: [websiteId], references: [id])
-  websiteId String   @db.Uuid
-  path   String
- 
-  device String
-  os String
-  browser String
-
-  createdAt DateTime
-
-  @@map("visits")
-}
-
 model User {
   id String @id @db.Uuid
-  email String @unique
+
+  email    String @unique
   password String
 
   refreshTokens RefreshToken[]
-  websites Website[]
+  websites      Website[]
 
   createdAt DateTime
   updatedAt DateTime?
@@ -55,10 +38,10 @@ model User {
 }
 
 model RefreshToken {
-  id String @id @db.Uuid
+  id    String @id @db.Uuid
   token String @unique @db.Uuid
 
-  user User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
   userId String @db.Uuid
 
   createdAt DateTime

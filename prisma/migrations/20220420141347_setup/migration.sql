@@ -4,6 +4,7 @@ CREATE TABLE "websites" (
     "domain" VARCHAR(100) NOT NULL,
     "name" VARCHAR(100) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL,
+    "userId" UUID NOT NULL,
 
     CONSTRAINT "websites_pkey" PRIMARY KEY ("id")
 );
@@ -12,20 +13,11 @@ CREATE TABLE "websites" (
 CREATE TABLE "visits" (
     "id" UUID NOT NULL,
     "websiteId" UUID NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "visits_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "pages" (
-    "id" UUID NOT NULL,
-    "url" VARCHAR(100) NOT NULL,
-    "websiteId" UUID NOT NULL,
-    "visitId" UUID NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "pages_pkey" PRIMARY KEY ("id")
+    "path" TEXT NOT NULL,
+    "device" TEXT NOT NULL,
+    "os" TEXT NOT NULL,
+    "browser" TEXT NOT NULL,
+    "createdAt" TIMESTAMPTZ NOT NULL
 );
 
 -- CreateTable
@@ -51,7 +43,7 @@ CREATE TABLE "refresh_tokens" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "pages_visitId_key" ON "pages"("visitId");
+CREATE UNIQUE INDEX "visits_id_createdAt_key" ON "visits"("id", "createdAt");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
@@ -60,13 +52,10 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 CREATE UNIQUE INDEX "refresh_tokens_token_key" ON "refresh_tokens"("token");
 
 -- AddForeignKey
+ALTER TABLE "websites" ADD CONSTRAINT "websites_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "visits" ADD CONSTRAINT "visits_websiteId_fkey" FOREIGN KEY ("websiteId") REFERENCES "websites"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "pages" ADD CONSTRAINT "pages_websiteId_fkey" FOREIGN KEY ("websiteId") REFERENCES "websites"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "pages" ADD CONSTRAINT "pages_visitId_fkey" FOREIGN KEY ("visitId") REFERENCES "visits"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "refresh_tokens" ADD CONSTRAINT "refresh_tokens_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

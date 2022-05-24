@@ -1,7 +1,8 @@
 import express from "express";
 
 import { Inject, Service } from "typedi";
-import { ApiError } from "../common/errors";
+import { ApiError, FindWebsiteError, InternalError } from "../common/errors";
+import { InternalServerError, NotFoundError } from "../common/errors/http";
 import { Either, isNotOk } from "../common/utils";
 import { VisitsService, VisitsServiceInterface } from "../services";
 
@@ -19,14 +20,16 @@ export class VisitsController {
         visitor: {
           id: req.body.visitor.id,
           display: req.body.visitor.display,
-          userAgent: req.body.visitor.userAgent,
+          userAgent: req.headers["user-agent"] || "",
           referer: req.body.visitor.referer,
         },
       }
     );
 
     if (isNotOk(createVisit)) {
-      // handle errors
+      if (createVisit.notOk instanceof FindWebsiteError)
+        throw new NotFoundError(createVisit.notOk.toObject());
+      else throw new InternalServerError(createVisit.notOk.toObject());
     }
   }
 }

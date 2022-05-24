@@ -16,3 +16,6 @@ export * from "./user-agent";
 
 // websites
 export * from "./websites";
+
+// cache
+export * from "./cache";

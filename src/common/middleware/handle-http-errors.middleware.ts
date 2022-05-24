@@ -13,7 +13,9 @@ export const handleHttpErrors = (
   res: express.Response,
   next: express.NextFunction
 ) => {
-  if (error instanceof BadRequestError) res.status(400).send(error.toObject());
+  console.log(error);
+  if (error instanceof BadRequestError)
+    return res.status(400).send(error.toObject());
   else if (error instanceof NotFoundError)
     return res.status(404).send(error.toObject());
   else if (error instanceof UnauthorizedError)

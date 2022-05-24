@@ -6,6 +6,7 @@ import {
   usersRouter,
   websitesRouter,
   visitsRouter,
+  aggregatesRouter,
 } from "./src/common";
 
 const app = new App();
@@ -16,5 +17,6 @@ app.registerRouter(apiVersion, authRouter);
 app.registerRouter(apiVersion, usersRouter);
 app.registerRouter(apiVersion, websitesRouter);
 app.registerRouter(apiVersion, visitsRouter);
+app.registerRouter(apiVersion, aggregatesRouter);
 
 app.listen(3001);

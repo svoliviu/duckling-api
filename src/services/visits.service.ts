@@ -1,6 +1,6 @@
-import { Visit, Website } from ".prisma/client";
+import { Website } from ".prisma/client";
 import { Inject, Service } from "typedi";
-import { Either, isNotOk, notOk } from "../common/utils";
+import { Either, isNotOk, notOk, ok } from "../common/utils";
 import { CreateVisitDto, UserAgent } from "../common";
 import {
   FindError,
@@ -23,6 +23,9 @@ import { VisitsRepositoryInterface } from "../repositories/visits-repository.int
 import { UrlProcessorInterface } from "../common/utils/url-processor.interface";
 import { UrlProcessor } from "../common/utils/url-processor";
 import { v4 } from "uuid";
+import { DateTime } from "luxon";
+import { SessionsService } from "./sessions.service";
+import { Visit } from "../common/types/visit.type";
 
 @Service(VisitsService.name)
 export class VisitsService implements VisitsServiceInterface {
@@ -34,12 +37,14 @@ export class VisitsService implements VisitsServiceInterface {
     @Inject(DDUserAgentParser.name)
     private readonly userAgentParser: UserAgentParser,
     @Inject(VisitsRepository.name)
-    private readonly visitsRepository: VisitsRepositoryInterface
+    private readonly visitsRepository: VisitsRepositoryInterface,
+    @Inject(SessionsService.name)
+    private readonly sessionsService: SessionsService
   ) {}
 
   async create(
     dto: CreateVisitDto
-  ): Promise<Either<FindWebsiteError | InternalError, void>> {
+  ): Promise<Either<FindWebsiteError | InternalError, undefined>> {
     // prepare the domain in order to identify corresponding website
     const getWebsiteDomain: Either<UrlProcessingError, string> =
       this.urlProcessor.extractDomain(dto.website.url);
@@ -76,16 +81,32 @@ export class VisitsService implements VisitsServiceInterface {
     }
 
     // save the visit
-
     const saveVisit: Either<InsertError, Visit> =
       await this.visitsRepository.create({
         id: v4(),
+        visitorId: dto.visitor.id,
         path: dto.website.url,
         device: parseUserAgent.ok.device,
         browser: parseUserAgent.ok.browser,
         os: parseUserAgent.ok.os,
         createdAt: new Date(),
-        website: {},
+        websiteId: findWebsite.ok.id,
       });
+
+    if (isNotOk(saveVisit)) {
+      return notOk<InternalError>(
+        new InternalError(saveVisit.notOk.toObject())
+      );
+    }
+
+    // create or update session
+    const createOrUpdate: Either<InternalError, undefined> =
+      await this.sessionsService.createOrUpdate(saveVisit.ok);
+
+    if (isNotOk(createOrUpdate)) {
+      return createOrUpdate;
+    }
+
+    return ok(undefined);
   }
 }
